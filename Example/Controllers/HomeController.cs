@@ -12,8 +12,10 @@ namespace Example.Controllers {
         public ActionResult Index() {
             ViewData["Message"] = "Hello, world! from ASP.NET MVC";
 
-            var server = MongoServer.Create("mongodb://heroku_app522285:r1r0ig3q3fbohld0tk9tf90ccj@ds029287.mongolab.com:29287/heroku_app522285");
-            var database = server.GetDatabase("heroku_app522285", server.Settings.DefaultCredentials);
+            var connectionString = System.Environment.GetEnvironmentVariable("MONGOLAB_URI");
+            var uri = new Uri(connectionString);
+            var server = MongoServer.Create(uri);
+            var database = server.GetDatabase(uri.LocalPath.Replace("/", ""), server.Settings.DefaultCredentials);
             ViewData["Posts"] = database.GetCollection("posts").FindAll().SetSortOrder(SortBy.Descending("created"));
 
             return View();
