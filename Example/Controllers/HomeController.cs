@@ -14,9 +14,9 @@ namespace Example.Controllers {
             ViewData["Message"] = "Hello, world! from ASP.NET MVC";
 
             var connectionString = ConfigurationManager.AppSettings["MONGOLAB_URI"];
-            var uri = new Uri(connectionString);
+            var uri = new MongoUrl(connectionString);
             var server = MongoServer.Create(uri);
-            var database = server.GetDatabase(uri.LocalPath.Replace("/", ""), server.Settings.DefaultCredentials);
+            var database = server.GetDatabase(uri.DatabaseName, server.Settings.DefaultCredentials);
             ViewData["Posts"] = database.GetCollection("posts").FindAll().SetSortOrder(SortBy.Descending("created"));
 
             return View();
