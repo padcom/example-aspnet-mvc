@@ -13,7 +13,7 @@ namespace Example.Controllers {
         public ActionResult Index() {
             ViewData["Message"] = "Hello, world! from ASP.NET MVC";
 
-            var connectionString = ConfigurationSettings.AppSettings["MONGOLAB_URI"];
+            var connectionString = ConfigurationManager.AppSettings["MONGOLAB_URI"];
             var uri = new Uri(connectionString);
             var server = MongoServer.Create(uri);
             var database = server.GetDatabase(uri.LocalPath.Replace("/", ""), server.Settings.DefaultCredentials);
